@@ -4,9 +4,12 @@ import numpy as np
 ## PUNTO A) ##
 
 # Función para transformar columnas de un dataset a datetime.
-def transformar_columnas_datetime(df, columnas):
-    for columna in columnas:
-        df[columna] = pd.to_datetime(df[columna])
+def transformar_columnas_datetime(df):
+    for columna in df.columns:
+        try:
+            df[columna] = pd.to_datetime(df[columna])
+        except ValueError:
+            pass
     return df
 
 
@@ -29,7 +32,7 @@ def tiempo_de_espera(orders, is_delivered=True):
 
 
 # Función para calcular la diferencia entre la fecha de entrega y la fecha de entrega estimada. si la fecha de entrega real es posterior a la fecha de entrega estimada, devuelve el número de días entre las dos fechas; de lo contrario, devuelve 0
-def real_vs_esperado(df):
+def real_vs_esperado(df, is_delivered=True):
     # Calculo la diferencia entre la fecha de entrega y la fecha de entrega estimada
     df['real_vs_esperado'] = df['order_delivered_carrier_date'] - df['order_estimated_delivery_date']
     # Reemplazo los valores negativos por 0
@@ -51,7 +54,7 @@ def review_score(df):
 ## PUNTO C) ##
 
 # Función para calcular el número de productos por orden.
-def numero_de_productos(orders_items, products):
+def calcular_numero_de_productos(orders_items, products):
     # Hago un merge entre los dfs usando la columna 'product_id'
     merged_data = orders_items.merge(products, on='product_id', how='inner')
     # Agrupo por 'order_id' y cuento el número de productos por orden
