@@ -72,12 +72,14 @@ def vendedores_unicos(orders_items):
     vendedores_unicos_por_orden.rename(columns={'seller_id': 'vendedores_unicos'}, inplace=True)
     return vendedores_unicos_por_orden
 
-# def contar_valores_unicos_por_grupo(data, group_column, value_column):
+'''
+def contar_valores_unicos_por_grupo(data, group_column, value_column):
     # Agrupa por la columna especificada y obtiene el número de valores únicos por grupo
-    #resultados = data.groupby(group_column)[value_column].nunique().reset_index()
-    #resultados.rename(columns={value_column: f'numero_de_{value_column}'}, inplace=True)
+    resultados = data.groupby(group_column)[value_column].nunique().reset_index()
+    resultados.rename(columns={value_column: f'numero_de_{value_column}'}, inplace=True)
 
-   # return resultados
+   return resultados
+'''
 
 
 
@@ -88,10 +90,7 @@ def calcular_precio_y_transporte(order_items, productos):
     # Fusiona los DataFrames usando la columna 'product_id'
     merged_data = order_items.merge(productos, on='product_id', how='inner')
     # Agrupa por 'order_id' y calcula el precio y el transporte de la orden
-    precio_y_transporte = merged_data.groupby('order_id').agg({
-        'price': 'sum',
-        'freight_value': 'sum'
-    }).reset_index()
+    precio_y_transporte = merged_data.groupby('order_id').agg(precio = ('price', 'sum'), transporte = ('freight_value', 'sum')).reset_index()
     return precio_y_transporte
 
 
