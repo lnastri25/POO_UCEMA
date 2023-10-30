@@ -4,33 +4,27 @@ import numpy as np
 
 
 def whitespace_remover(dataframe):
-    # iterating over the columns
+    # itero sobre las columnas
     for i in dataframe.columns:
-        # checking datatype of each column
+        # chequeo si la columna es de tipo object
         if dataframe[i].dtype == 'object':
-            # applying strip function on column
+            # aplico la función strip a la columna
             dataframe[i] = dataframe[i].apply(lambda x: x.strip() if isinstance(x, str) else x)
     return dataframe
 
 
 def whitespace_remover_and_columns(dataframe):
-   
-    # iterating over the columns
+    # itero sobre las columnas
     for i in dataframe.columns:
-         
-        # checking datatype of each columns
+        # chequeo si la columna es de tipo object
         if dataframe[i].dtype == 'object':
-             
-            # applying strip function on column
+            # aplico la función strip a la columna
             dataframe[i] = dataframe[i].map(str.strip)
         else:
-             
-            # if condn. is False then it will do nothing.
+            # si la condición es Falsa, no hará nada.
             pass
     dataframe.rename(columns=lambda x: x.strip(), inplace=True)
     return dataframe
-
-
 
 
 
@@ -54,11 +48,9 @@ def calcular_time_delta(df, columna_fecha_inicio, columna_fecha_fin):
 
 # Función para calcular el tiempo de entrega REAL.
 def tiempo_de_espera_real(orders, is_delivered=True):
-    # filtrar por entregados y crea la varialbe tiempo de espera
     if is_delivered:
         orders = orders.query("order_status=='delivered'").copy()
-    # compute wait time
-    orders.loc[:, 'tiempo_de_espera_real'] = \
+    orders.loc[:, 'tiempo_de_espera'] = \
         (orders['order_delivered_customer_date'] -
          orders['order_purchase_timestamp']) / np.timedelta64(24, 'h')
     return orders
@@ -69,8 +61,8 @@ def tiempo_de_espera_esperado(orders, is_delivered=True):
     # filtrar por entregados y crea la varialbe tiempo de espera
     if is_delivered:
         orders = orders.query("order_status=='delivered'").copy()
-    # compute wait time
-    orders.loc[:, 'tiempo_de_espera_esperado'] = \
+    # computar tiempo de espera esperado
+    orders.loc[:, 'tiempo_de_espera_pronosticado'] = \
         (orders['order_estimated_delivery_date'] -
          orders['order_purchase_timestamp']) / np.timedelta64(24, 'h')
     return orders
@@ -81,8 +73,8 @@ def real_vs_esperado(orders, is_delivered=True):
     if is_delivered:
         orders = orders.query("order_status=='delivered'").copy()
         
-    orders['real_vs_esperado'] = np.where(orders['tiempo_de_espera_real'] > orders['tiempo_de_espera_esperado'], 
-                                           orders['tiempo_de_espera_real'] - orders['tiempo_de_espera_esperado'], 
+    orders['real_vs_esperado'] = np.where(orders['tiempo_de_espera'] > orders['tiempo_de_espera_pronosticado'], 
+                                           orders['tiempo_de_espera'] - orders['tiempo_de_espera_pronosticado'], 
                                            0)
     return orders
 
@@ -168,11 +160,11 @@ def haversine_distance(lon1, lat1, lon2, lat2):
     a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
     return 2 * 6371 * asin(sqrt(a))
 
-def calculate_distance(row):
+def calcular_distancia(row):
     return haversine_distance(row['geolocation_lng_x'], row['geolocation_lat_x'], row['geolocation_lng_y'], row['geolocation_lat_y'])
 
 
 def crear_columna(df):
     df2=df.copy()
-    df2['distancia_entre_cliente_y_vendedor'] = df2.apply(calculate_distance, axis=1)
-    return df2[['order_id', 'distancia_entre_cliente_y_vendedor']]
+    df2['distance_seller_customer'] = df2.apply(calcular_distancia, axis=1)
+    return df2[['order_id', 'distance_seller_customer']]
