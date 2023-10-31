@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-
+## GENERALES ##
 
 def whitespace_remover(dataframe):
     # itero sobre las columnas
