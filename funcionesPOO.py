@@ -75,3 +75,14 @@ def crear_heatmap_correlacion(df):
         annot_kws={"size": 10}
     )
     plt.show()
+
+
+## FUNCIÓN PARA TRANSFORMAR COLUMNAS A DATETIME ##
+
+def transformar_columnas_datetime(df):
+    for columna in df.columns:
+        try:
+            df[columna] = pd.to_datetime(df[columna])
+        except ValueError:
+            pass
+    return df
