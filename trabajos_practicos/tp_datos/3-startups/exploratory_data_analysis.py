@@ -1,13 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-## FUNCIÓN PARA CARGAR EL DATAFRAME ##
-
-def load_df(path):
-    df = pd.read_csv(path)
-    return df
-
-
 ## FUNCIÓN PARA VALIDAR COLUMNAS ##
 
 def validate_columns(df):
