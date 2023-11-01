@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 ## FUNCIÓN PARA CARGAR EL DATAFRAME ##
 
 def load_df(path):
@@ -48,3 +49,29 @@ def is_outlier(data, scale_factor=1.5):
     lower_bound = q1 - scale_factor * iqr
     upper_bound = q3 + scale_factor * iqr
     return (data < lower_bound) | (data > upper_bound)
+
+
+## FUNCIÓN PARA CREAR HEATMAP DE CORRELACIÓN ENTRE VARIABLES NUMÉRICAS ##
+
+def crear_heatmap_correlacion(df):
+    def seleccionar_columnas_numericas(df):
+        return df.select_dtypes(include=['float64', 'int64'])
+
+    # Seleccionar las columnas numéricas del DataFrame
+    df_numeric = seleccionar_columnas_numericas(df)
+
+    # Eliminar las columnas con títulos no deseados
+    df_numeric = df_numeric.drop(columns=[col for col in df_numeric.columns if col.startswith("Unnamed:") or col.strip() == ""])
+
+    # Calcular la matriz de correlación
+    corr_matrix = df_numeric.corr()
+
+    # Crear el heatmap de correlación
+    plt.figure(figsize=(10, 10))
+    sns.heatmap(
+        round(corr_matrix, 2),
+        cmap='coolwarm',
+        annot=True,
+        annot_kws={"size": 10}
+    )
+    plt.show()
