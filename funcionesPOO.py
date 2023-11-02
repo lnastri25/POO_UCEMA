@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 ## FUNCIÓN PARA CARGAR EL DATAFRAME ##
@@ -7,6 +8,22 @@ import matplotlib.pyplot as plt
 def load_df(path):
     df = pd.read_csv(path)
     return df
+
+
+## GENERALES ##
+
+def whitespace_remover_and_columns(dataframe):
+    # itero sobre las columnas
+    for i in dataframe.columns:
+        # chequeo si la columna es de tipo object
+        if dataframe[i].dtype == 'object':
+            # aplico la función strip a la columna
+            dataframe[i] = dataframe[i].map(str.strip)
+        else:
+            # si la condición es Falsa, no hará nada.
+            pass
+    dataframe.rename(columns=lambda x: x.strip(), inplace=True)
+    return dataframe
 
 
 ## FUNCIÓN PARA VALIDAR COLUMNAS ##
