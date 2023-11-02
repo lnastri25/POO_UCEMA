@@ -3,5 +3,11 @@ seteando_ando
 material_de_lectura
 
 *.csv
-*.xlsx
 *.zip
+*.xlsx
+*.pyc
+*.ipynb_checkpoints
+*.idea
+*.DS_Store
+*.pyc
+.pytest_cache
