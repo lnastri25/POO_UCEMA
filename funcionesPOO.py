@@ -68,9 +68,34 @@ def is_outlier(data, scale_factor=1.5):
     return (data < lower_bound) | (data > upper_bound)
 
 
+"""
+from funciones.exploratory_data_analysis import is_outlier
+
+outliers_admin_costs = is_outlier(df_startups["Admin_Costs"], 1.5)
+outlier_values_admin_costs = df_startups["Admin_Costs"][outliers_admin_costs]
+
+outliers_net_profit = is_outlier(df_startups["Net_Profit"], 1.5)
+outlier_values_net_profit = df_startups["Net_Profit"][outliers_net_profit]
+
+outliers_profit = is_outlier(df_startups["Profit"], 1.5)
+outlier_values_profit = df_startups["Profit"][outliers_net_profit]
+
+
+print("Outliers de Admin_Costs:")
+print(outlier_values_admin_costs)
+print("")
+print("Outliers de Net_Profit:")
+print(outlier_values_net_profit)
+print("")
+print("Outliers de Profit:")
+print(outlier_values_profit)
+"""
+
+
+
 ## FUNCIÓN PARA CREAR HEATMAP DE CORRELACIÓN ENTRE VARIABLES NUMÉRICAS ##
 
-def crear_heatmap_correlacion(df):
+def crear_heatmap_correlacion(df): # --> pasarle siempre el df original, nada de filtrado.
     def seleccionar_columnas_numericas(df):
         return df.select_dtypes(include=['float64', 'int64'])
 
