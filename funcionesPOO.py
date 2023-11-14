@@ -128,3 +128,25 @@ def transformar_columnas_datetime(df):
         except ValueError:
             pass
     return df
+
+
+'''
+from sklearn import preprocessing
+
+# Función para encodear
+
+def encoder(df, cat):
+
+    le = preprocessing.LabelEncoder()
+
+    clases = []
+
+    for i in cat:
+
+        df[i]=le.fit_transform(df[i]) 
+
+        clases.append(le.classes_)
+
+    return df, clases
+
+'''
