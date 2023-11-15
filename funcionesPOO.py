@@ -47,7 +47,8 @@ def fill_missing_values(df, columns, fill_method, fill_value=None):
     return df
 
 """"
-from funciones.preprocess import fill_missing_values
+# Ejemplo de uso:
+from ... import fill_missing_values
 
 columns_to_fill_bfill = ['Embarked', "Cabin"]
 columns_to_fill_fillna = ['Age']
@@ -108,6 +109,8 @@ def reconocimiento_de_outliers(df, column, scale_factor=1.5):
 
 """"
 # Ejemplo de uso:
+from ... import reconocimiento_de_outliers
+
 outliers_admin_costs, outlier_values_admin_costs = reconocimiento_de_outliers(df_startups, "Admin_Costs", 1.5)
 outliers_net_profit, outlier_values_net_profit = reconocimiento_de_outliers(df_startups, "Net_Profit", 1.5)
 outliers_profit, outlier_values_profit = reconocimiento_de_outliers(df_startups, "Profit", 1.5)
@@ -123,6 +126,8 @@ def remove_outliers(df, column, outliers):
 
 """"
 # Ejemplo de uso:
+from ... import remove_outliers
+
 df_cultivos = remove_outliers(df_cultivos, "Contenido_de_Fosforo", outliers_admin_costs)
 df_cultivos = remove_outliers(df_cultivos, "Precipitacion_mm", outliers_net_profit)
 df_cultivos = remove_outliers(df_cultivos, "Humedad_Relativa", outliers_profit)
