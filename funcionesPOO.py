@@ -90,40 +90,46 @@ def plot_outliers(df):
 
 ## 6) FUNCIÓN PARA DETERMINAR SI ¿ES OUTLIER O NO? ##
 
-def is_outlier(data, scale_factor=1.5):
+def reconocimiento_de_outliers(df, column, scale_factor=1.5):
+    data = df[column]
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     iqr = q3 - q1
     lower_bound = q1 - scale_factor * iqr
     upper_bound = q3 + scale_factor * iqr
-    return (data < lower_bound) | (data > upper_bound)
+    
+    outliers = (data < lower_bound) | (data > upper_bound)
+    outlier_values = data[outliers]
 
+    print(f"Outliers de {column}:")
+    print(outlier_values)
+    
+    return outliers, outlier_values
 
-"""
-from funciones.exploratory_data_analysis import is_outlier
-
-outliers_admin_costs = is_outlier(df_startups["Admin_Costs"], 1.5)
-outlier_values_admin_costs = df_startups["Admin_Costs"][outliers_admin_costs]
-
-outliers_net_profit = is_outlier(df_startups["Net_Profit"], 1.5)
-outlier_values_net_profit = df_startups["Net_Profit"][outliers_net_profit]
-
-outliers_profit = is_outlier(df_startups["Profit"], 1.5)
-outlier_values_profit = df_startups["Profit"][outliers_net_profit]
-
-
-print("Outliers de Admin_Costs:")
-print(outlier_values_admin_costs)
-print("")
-print("Outliers de Net_Profit:")
-print(outlier_values_net_profit)
-print("")
-print("Outliers de Profit:")
-print(outlier_values_profit)
+""""
+# Ejemplo de uso:
+outliers_admin_costs, outlier_values_admin_costs = reconocimiento_de_outliers(df_startups, "Admin_Costs", 1.5)
+outliers_net_profit, outlier_values_net_profit = reconocimiento_de_outliers(df_startups, "Net_Profit", 1.5)
+outliers_profit, outlier_values_profit = reconocimiento_de_outliers(df_startups, "Profit", 1.5)
 """
 
 
-## 7) FUNCIÓN PARA CREAR HEATMAP DE CORRELACIÓN ENTRE VARIABLES NUMÉRICAS ##
+## 7) FUNCIÓN PARA REMOVER OUTLIERS ##
+def remove_outliers(df, column, outliers):
+    if column in df.columns:
+        df = df.drop(df[outliers].index)
+    
+    return df
+
+""""
+# Ejemplo de uso:
+df_cultivos = remove_outliers(df_cultivos, "Contenido_de_Fosforo", outliers_admin_costs)
+df_cultivos = remove_outliers(df_cultivos, "Precipitacion_mm", outliers_net_profit)
+df_cultivos = remove_outliers(df_cultivos, "Humedad_Relativa", outliers_profit)
+"""
+
+
+## 8) FUNCIÓN PARA CREAR HEATMAP DE CORRELACIÓN ENTRE VARIABLES NUMÉRICAS ##
 
 # A) MATRIZ COMPLETA
 def crear_heatmap_correlacion(df): # --> pasarle siempre el df original, nada de filtrado.
@@ -163,7 +169,7 @@ def matriz_por_la_mitad(df):
     plt.show()
 
 
-## 7) FUNCIÓN PARA VER DISTRIBUCIÓN ENTRE VARIABLES ##
+## 9) FUNCIÓN PARA VER DISTRIBUCIÓN ENTRE VARIABLES ##
 
 def distribucion_entre_variables(df, categorical_variable, variables):
     num_variables = len(variables)
@@ -177,7 +183,7 @@ def distribucion_entre_variables(df, categorical_variable, variables):
     plt.tight_layout()
     plt.show()
 """
-# Ejemplo de uso con otras variables
+# Ejemplo de uso:
 otras_variables = ['Temperatura_C', 'Humedad_Relativa', 'Precipitacion_mm']
 distribucion_entre_variables(nombre_df, 'Tipo_de_Cultivo', otras_variables)
 """
