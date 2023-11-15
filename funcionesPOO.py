@@ -1,32 +1,29 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 
-## FUNCIÓN PARA CARGAR EL DATAFRAME ##
+## 1) FUNCIÓN PARA CARGAR EL DATAFRAME ##
 
 def load_df(path):
     df = pd.read_csv(path)
     return df
 
 
-## GENERALES ##
+## 2) GENERALES ##
 
 def whitespace_remover_and_columns(dataframe):
-    # itero sobre las columnas
     for i in dataframe.columns:
-        # chequeo si la columna es de tipo object
         if dataframe[i].dtype == 'object':
-            # aplico la función strip a la columna
             dataframe[i] = dataframe[i].map(str.strip)
         else:
-            # si la condición es Falsa, no hará nada.
             pass
     dataframe.rename(columns=lambda x: x.strip(), inplace=True)
     return dataframe
 
 
-## FUNCIÓN PARA VALIDAR COLUMNAS ##
+## 3) FUNCIÓN PARA VALIDAR COLUMNAS ##
 
 def validate_columns(df):
     summary_df = df.describe(include='all').T
@@ -36,11 +33,45 @@ def validate_columns(df):
     summary_df['Sample_Unique_Values'] = sample_unique_values.values.tolist()
     summary_df = summary_df.rename(columns={'unique': 'Unique_Values', 'count': 'Num_Unique_Values'})
     summary_df = summary_df[['Unique_Values', 'Num_Unique_Values', 'Num_Null_Values', '%_Null_Values', 'Sample_Unique_Values']]
-
     return summary_df
 
 
-## FUNCIÓN PARA GRAFICAR VALORES OUTLIERS ##
+## 4) FUNCIONES PARA MANEJO DE FALTANTES ##
+
+def fill_missing_values(df, columns, fill_method, fill_value=None):
+    for column in columns:
+        if fill_method == 'bfill':
+            df[column].fillna(method='bfill', inplace=True)
+        elif fill_method == 'fillna':
+            df[column].fillna(fill_value, inplace=True)
+    return df
+
+""""
+from funciones.preprocess import fill_missing_values
+
+columns_to_fill_bfill = ['Embarked', "Cabin"]
+columns_to_fill_fillna = ['Age']
+
+titanic_df = fill_missing_values(titanic_df, columns_to_fill_bfill, 'bfill')
+titanic_df = fill_missing_values(titanic_df, columns_to_fill_fillna, 'fillna', fill_value=0)
+"""
+
+
+"""
+def fill_missing_values(df, columns, fill_method, fill_value=None):
+    for column in columns:
+        if fill_method == 'bfill' and df[column].dtype == 'O':
+            df[column].fillna(method='bfill', inplace=True)
+        elif fill_method == 'fillna' and df[column].dtype in ['int64', 'float64']:
+            df[column].fillna(fill_value, inplace=True)
+        # Puedes agregar más casos para otros tipos de datos o métodos de relleno si es necesario
+    return df
+
+# SE PUEDE HACER ASI TAMBIEN --> ACA LE EXIGIS QUE SE CUMPLAN LAS CONDICIONES DEL APUNTE
+"""
+
+
+## 5) FUNCIÓN PARA GRAFICAR VALORES OUTLIERS ##
 
 def plot_outliers(df):
     num_cols = df.select_dtypes(include=['float64', 'int64']).shape[1]
@@ -57,7 +88,7 @@ def plot_outliers(df):
     plt.show()
 
 
-## FUNCIÓN PARA DETERMINAR SI ¿ES OUTLIER O NO? ##
+## 6) FUNCIÓN PARA DETERMINAR SI ¿ES OUTLIER O NO? ##
 
 def is_outlier(data, scale_factor=1.5):
     q1 = data.quantile(0.25)
@@ -92,9 +123,9 @@ print(outlier_values_profit)
 """
 
 
+## 7) FUNCIÓN PARA CREAR HEATMAP DE CORRELACIÓN ENTRE VARIABLES NUMÉRICAS ##
 
-## FUNCIÓN PARA CREAR HEATMAP DE CORRELACIÓN ENTRE VARIABLES NUMÉRICAS ##
-
+# A) MATRIZ COMPLETA
 def crear_heatmap_correlacion(df): # --> pasarle siempre el df original, nada de filtrado.
     def seleccionar_columnas_numericas(df):
         return df.select_dtypes(include=['float64', 'int64'])
@@ -117,6 +148,40 @@ def crear_heatmap_correlacion(df): # --> pasarle siempre el df original, nada de
         annot_kws={"size": 10}
     )
     plt.show()
+
+# B) MATRIZ POR LA MITAD
+def matriz_por_la_mitad(df):
+    correlation_matrix = df.corr()
+
+    plt.figure(figsize=(20, 20))
+    mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
+    
+    sns.heatmap(correlation_matrix, mask=mask, cmap='coolwarm', vmax=1, vmin=-1,
+                square=True, linewidths=.5, cbar_kws={"shrink": .5}, annot=True, annot_kws={"size": 8})
+
+    plt.title('Matriz de Correlación')
+    plt.show()
+
+
+## 7) FUNCIÓN PARA VER DISTRIBUCIÓN ENTRE VARIABLES ##
+
+def distribucion_entre_variables(df, categorical_variable, variables):
+    num_variables = len(variables)
+    plt.figure(figsize=(22, 6 * num_variables))
+    
+    for i, variable in enumerate(variables, 1):
+        plt.subplot(num_variables, 1, i)
+        sns.boxplot(x=categorical_variable, y=variable, data=df)
+        plt.title(f'Distribución de {variable} por {categorical_variable}')
+
+    plt.tight_layout()
+    plt.show()
+"""
+# Ejemplo de uso con otras variables
+otras_variables = ['Temperatura_C', 'Humedad_Relativa', 'Precipitacion_mm']
+distribucion_entre_variables(nombre_df, 'Tipo_de_Cultivo', otras_variables)
+"""
+
 
 
 ## FUNCIÓN PARA TRANSFORMAR COLUMNAS A DATETIME ##

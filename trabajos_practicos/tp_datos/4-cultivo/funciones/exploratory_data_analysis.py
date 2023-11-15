@@ -57,3 +57,5 @@ def is_outlier(data, scale_factor=1.5):
     lower_bound = q1 - scale_factor * iqr
     upper_bound = q3 + scale_factor * iqr
     return (data < lower_bound) | (data > upper_bound)
+
+

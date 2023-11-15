@@ -27,3 +27,5 @@ def crear_heatmap_correlacion(df):
         annot_kws={"size": 10}
     )
     plt.show()
+
+
