@@ -188,6 +188,9 @@ def distribucion_entre_variables(df, categorical_variable, variables):
     plt.tight_layout()
     plt.show()
 """
+df_cultivos['Tipo_de_Cultivo'] = df_cultivos[cultivos].idxmax(axis=1) --> ¡OJO acá!
+
+
 # Ejemplo de uso:
 otras_variables = ['Temperatura_C', 'Humedad_Relativa', 'Precipitacion_mm']
 distribucion_entre_variables(nombre_df, 'Tipo_de_Cultivo', otras_variables)
