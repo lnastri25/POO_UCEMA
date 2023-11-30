@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label=<duración de la sesión &le; 334.5<br/>entropy = 1.0<br/>samples = 2220<br/>value = [1136, 1084]<br/>class = Convertido>, fillcolor="#fef9f6"] ;
+1 [label=<duración de la sesión &le; 333.5<br/>entropy = 1.0<br/>samples = 1660<br/>value = [824, 836]<br/>class = No convertido>, fillcolor="#fcfeff"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label=<número de visitas &le; 30.5<br/>entropy = 1.0<br/>samples = 1649<br/>value = [822, 827]<br/>class = No convertido>, fillcolor="#fefeff"] ;
+1 -> 2 ;
+3 [label=<entropy = 0.999<br/>samples = 1036<br/>value = [501, 535]<br/>class = No convertido>, fillcolor="#f2f9fd"] ;
+2 -> 3 ;
+4 [label=<entropy = 0.998<br/>samples = 613<br/>value = [321, 292]<br/>class = Convertido>, fillcolor="#fdf4ed"] ;
+2 -> 4 ;
+5 [label=<número de visitas &le; 40.0<br/>entropy = 0.684<br/>samples = 11<br/>value = [2, 9]<br/>class = No convertido>, fillcolor="#65b3eb"] ;
+1 -> 5 ;
+6 [label=<entropy = 0.0<br/>samples = 7<br/>value = [0, 7]<br/>class = No convertido>, fillcolor="#399de5"] ;
+5 -> 6 ;
+7 [label=<entropy = 1.0<br/>samples = 4<br/>value = [2, 2]<br/>class = Convertido>, fillcolor="#ffffff"] ;
+5 -> 7 ;
+8 [label=<páginas visitadas &le; 1.5<br/>entropy = 0.991<br/>samples = 560<br/>value = [312, 248]<br/>class = Convertido>, fillcolor="#fae5d6"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label=<número de visitas &le; 0.5<br/>entropy = 0.902<br/>samples = 22<br/>value = [7, 15]<br/>class = No convertido>, fillcolor="#95cbf1"] ;
+8 -> 9 ;
+10 [label=<entropy = 0.0<br/>samples = 2<br/>value = [2, 0]<br/>class = Convertido>, fillcolor="#e58139"] ;
+9 -> 10 ;
+11 [label=<entropy = 0.811<br/>samples = 20<br/>value = [5, 15]<br/>class = No convertido>, fillcolor="#7bbeee"] ;
+9 -> 11 ;
+12 [label=<duración de la sesión &le; 419.5<br/>entropy = 0.987<br/>samples = 538<br/>value = [305, 233]<br/>class = Convertido>, fillcolor="#f9e1d0"] ;
+8 -> 12 ;
+13 [label=<entropy = 0.984<br/>samples = 517<br/>value = [297, 220]<br/>class = Convertido>, fillcolor="#f8decc"] ;
+12 -> 13 ;
+14 [label=<entropy = 0.959<br/>samples = 21<br/>value = [8, 13]<br/>class = No convertido>, fillcolor="#b3d9f5"] ;
+12 -> 14 ;
+}
