@@ -128,9 +128,9 @@ def remove_outliers(df, column, outliers):
 # Ejemplo de uso:
 from ... import remove_outliers
 
-df_cultivos = remove_outliers(df_cultivos, "Contenido_de_Fosforo", outliers_admin_costs)
-df_cultivos = remove_outliers(df_cultivos, "Precipitacion_mm", outliers_net_profit)
-df_cultivos = remove_outliers(df_cultivos, "Humedad_Relativa", outliers_profit)
+df_startups = remove_outliers(df_startups, "Admin_Costs", outliers_admin_costs)
+df_startups = remove_outliers(df_startups, "Net_Profit", outliers_net_profit)
+df_startups = remove_outliers(df_startups, "Profit", outliers_profit)
 """
 
 
