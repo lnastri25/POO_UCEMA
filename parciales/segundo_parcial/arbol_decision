@@ -24,10 +24,10 @@ edge [fontname="helvetica"] ;
 9 -> 10 ;
 11 [label=<gini = 0.165<br/>samples = 33<br/>value = [30, 3]<br/>class = Convertido>, fillcolor="#e88e4d"] ;
 9 -> 11 ;
-12 [label=<duración de la sesión &le; 244.0<br/>gini = 0.32<br/>samples = 5<br/>value = [1, 4]<br/>class = No convertido>, fillcolor="#6ab6ec"] ;
+12 [label=<edad &le; 138.5<br/>gini = 0.32<br/>samples = 5<br/>value = [1, 4]<br/>class = No convertido>, fillcolor="#6ab6ec"] ;
 8 -> 12 ;
-13 [label=<gini = 0.0<br/>samples = 1<br/>value = [1, 0]<br/>class = Convertido>, fillcolor="#e58139"] ;
+13 [label=<gini = 0.0<br/>samples = 4<br/>value = [0, 4]<br/>class = No convertido>, fillcolor="#399de5"] ;
 12 -> 13 ;
-14 [label=<gini = 0.0<br/>samples = 4<br/>value = [0, 4]<br/>class = No convertido>, fillcolor="#399de5"] ;
+14 [label=<gini = 0.0<br/>samples = 1<br/>value = [1, 0]<br/>class = Convertido>, fillcolor="#e58139"] ;
 12 -> 14 ;
 }
